@@ -2,6 +2,7 @@ version: "3.8"
 services:
   mysql:
     image: mysql:8
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: task_manager_db
@@ -19,6 +20,7 @@ services:
 
   backend:
     build: ./backend
+    restart: unless-stopped
     environment:
       MYSQLHOST: mysql
       MYSQLPORT: 3306
@@ -34,6 +36,7 @@ services:
 
   frontend:
     build: ./frontend
+    restart: unless-stopped
     ports:
       - "5173:5173"
     depends_on:
