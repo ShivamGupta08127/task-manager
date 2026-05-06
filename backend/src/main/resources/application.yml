@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://mysql:3306/task_manager_db?createDatabaseIfNotExist=true
-    username: root
-    password: root
+    url: jdbc:mysql://${MYSQLHOST:mysql}:${MYSQLPORT:3306}/${MYSQLDATABASE:task_manager_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${MYSQLUSER:root}
+    password: ${MYSQLPASSWORD:root}
   jpa:
     hibernate:
       ddl-auto: update
@@ -11,7 +11,7 @@ spring:
       hibernate:
         format_sql: true
 server:
-  port: 8080
+  port: ${PORT:8080}
 app:
-  jwt-secret: my-super-secret
+  jwt-secret: ${JWT_SECRET:my-super-secret}
   jwt-expiration-ms: 86400000

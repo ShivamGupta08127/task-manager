@@ -5,20 +5,37 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: task_manager_db
+      MYSQL_USER: task_user
+      MYSQL_PASSWORD: task_password
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   backend:
     build: ./backend
+    environment:
+      MYSQLHOST: mysql
+      MYSQLPORT: 3306
+      MYSQLDATABASE: task_manager_db
+      MYSQLUSER: task_user
+      MYSQLPASSWORD: task_password
+      JWT_SECRET: my-super-secret-key-for-local-docker
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   frontend:
     build: ./frontend
+    environment:
+      VITE_API_BASE_URL: http://localhost:8080/api
     ports:
       - "5173:5173"
     depends_on:
