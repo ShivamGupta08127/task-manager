@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import axios from "axios";
 import "./styles.css";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+const defaultApiBaseUrl = `${window.location.protocol}//${window.location.hostname}:8080/api`;
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || defaultApiBaseUrl;
 const api = axios.create({ baseURL: apiBaseUrl });
 const TASK_STATUSES = ["TODO", "IN_PROGRESS", "DONE"];
 const emptyTask = { projectId: "", title: "", description: "", dueDate: "", assignedToId: "", status: "TODO" };
